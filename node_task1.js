@@ -68,24 +68,24 @@ async function getProductInformationByProductId(productId) {
 /**
  * TIP: Use the following code to test your implementation
  */
-;(async () => {
-  try {
-    const productsPath = path.resolve(__dirname, './data/task1/products.json')
-    const reviewsPath = path.resolve(__dirname, './data/task1/reviews.json')
-    const customersPath = path.resolve(__dirname, './data/task1/customers.json')
-    const imagesPath = path.resolve(__dirname, './data/task1/images.json')
-    const dataPaths = {
-      productsPath,
-      reviewsPath,
-      customersPath,
-      imagesPath,
-    }
-    const product = await getProductInformationByProductId(1, dataPaths)
-    console.log(JSON.stringify(product, null, 3))
-  } catch (err) {
-    console.error(err)
-  }
-})()
+// ;(async () => {
+//   try {
+//     const productsPath = path.resolve(__dirname, './data/task1/products.json')
+//     const reviewsPath = path.resolve(__dirname, './data/task1/reviews.json')
+//     const customersPath = path.resolve(__dirname, './data/task1/customers.json')
+//     const imagesPath = path.resolve(__dirname, './data/task1/images.json')
+//     const dataPaths = {
+//       productsPath,
+//       reviewsPath,
+//       customersPath,
+//       imagesPath,
+//     }
+//     const product = await getProductInformationByProductId(1, dataPaths)
+//     console.log(JSON.stringify(product, null, 3))
+//   } catch (err) {
+//     console.error(err)
+//   }
+// })()
 
 module.exports = {
   getProductInformationByProductId,

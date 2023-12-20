@@ -70,11 +70,12 @@ function CandidateList({ candidates, setCandidates }) {
   const [filteredCandidates, setFilteredCandidates] = useState('');
 
   useEffect(() => {
-    const storedCandidates = localStorage.getItem('candidates');
-    if (storedCandidates) {
-      // Hint: Implement this
+    const storedCandidates = JSON.parse(localStorage.getItem('candidates'));
+    if (storedCandidates?.length > 0) {
+      setCandidates(storedCandidates);
+      setFilteredCandidates(storedCandidates);
     }
-  }, []);
+  }, [setCandidates]);
 
   const handleSearch = () => {
     // Hint: Implement this
@@ -86,8 +87,9 @@ function CandidateList({ candidates, setCandidates }) {
 
   const handleListAll = () => {
     // Hint: Implement this
+    setSearchText('');
     setFilteredCandidates(candidates);
-    console.log(candidates);
+    // console.log(candidates);
   };
 
   return (
@@ -98,7 +100,7 @@ function CandidateList({ candidates, setCandidates }) {
           <input
             type='text'
             placeholder='search skills'
-            value=''
+            value={searchText}
             style={searchBoxStyle}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -113,43 +115,45 @@ function CandidateList({ candidates, setCandidates }) {
             List All
           </button>
         </div>
-        {filteredCandidates.length === 0
-          ? 'No profiles found'
-          : filteredCandidates.map((candidate, index) => (
-              <div
-                key={index}
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: 'flex-start',
-                }}
-              >
-                <div
-                  style={{
-                    ...profileCardStyle,
-                    textAlign: 'left',
-                    marginRight: '10px',
-                  }}
-                >
-                  <h2 style={{ marginBottom: '10px' }}>
-                    Role: {candidate.role}
-                  </h2>
-                  <p>Name: {candidate.name}</p>
-                  <p>Email: {candidate.email}</p>
-                  <div>
-                    <p style={{ fontWeight: 'bold' }}>Skills</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                      {candidate.skills.map((skill, index) => (
-                        <div key={index} style={skillsStyle}>
-                          {/* Hint: Implement this */}
-                          {skill}
-                        </div>
-                      ))}
+        {filteredCandidates.length} profiles found
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+          }}
+        >
+          {filteredCandidates.length === 0
+            ? ''
+            : filteredCandidates.map((candidate, index) => (
+                <div key={index} style={{}}>
+                  <div
+                    style={{
+                      ...profileCardStyle,
+                      textAlign: 'left',
+                      marginRight: '10px',
+                    }}
+                  >
+                    <h2 style={{ marginBottom: '10px' }}>
+                      Role: {candidate.role}
+                    </h2>
+                    <p>Name: {candidate.name}</p>
+                    <p>Email: {candidate.email}</p>
+                    <div>
+                      <p style={{ fontWeight: 'bold' }}>Skills</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        {candidate.skills.map((skill, index) => (
+                          <div key={index} style={skillsStyle}>
+                            {/* Hint: Implement this */}
+                            {skill}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+        </div>
       </div>
     </>
   );

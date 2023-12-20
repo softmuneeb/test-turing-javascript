@@ -28,7 +28,7 @@ const buttonStyle = {
   marginRight: '10px',
 };
 
-function Home() {
+function Home({ candidates }) {
   return (
     <>
       <Navbar></Navbar>

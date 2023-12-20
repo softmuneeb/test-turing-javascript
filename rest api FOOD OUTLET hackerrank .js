@@ -10,7 +10,7 @@ async function finestFoodOutlet(city, minVotes) {
 
   for (let i = 1; i <= total_pages; i++) {
     const res = await axios.get(`https://jsonmock.hackerrank.com/api/food_outlets?city=${city}&page=${i}`)
-
+    "".loca
     res.data.data.forEach(o => {
       log(o.name, o.user_rating.average_rating, o.user_rating.votes, minVotes)
 

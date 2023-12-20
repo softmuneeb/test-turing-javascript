@@ -1,0 +1,229 @@
+
+00:59:04
+
+Submit
+Grocery Delivery Application
+
+
+Passing Criteria:
+
+The test has a total of marks 100. There are 3 tasks, and the marks breakdown as follows:
+
+Task 1 = 30
+Task 2 = 30
+Task 3 = 40
+
+
+You have to score 50% marks to pass the test.
+
+Note: All tasks are independent of each other, you can attempt them in any order.
+
+
+
+Automated Tests:
+
+There are 10 test cases provided in the `task/tests` folder. These tests cover the main functionalities, you must test your code against them.
+
+However, there are hidden tests that are much more strict and detailed. They will cover all the flows as well as some edge cases. Your final submission will be evaluated using those hidden tests.
+
+
+
+Instructions:
+
+Once the IDE loads, click on the IDE and use Ctrl + ` (tick) to open the terminal on Windows and ^ + ` (tick) on Mac OS. In case it doesnât work, click on the Terminal option in the top menu bar, and select New Terminal from the dropdown to open the terminal.
+Run `npm install` to install all the required third-party packages.
+In order to run each task use the following commands:
+`npm run task1` to run task1.js
+`npm run task2` to run task2.js
+`npm run task3` to run task3.js
+Each of the above files has code enabling you to run the functions.
+In order to run the test cases for each task, use the following commands:
+`npm run test:task1` to run unit test cases for task1.js
+`npm run test:task2` to run unit test cases for task2.js
+`npm run test:task3` to run unit test cases for task3.js
+`npm run test:main` to run unit test cases for all the tasks
+Use the `Reload Question` button at the bottom in case the question or JSON object is not formatted correctly.
+
+
+Problem Statement:
+
+You're an engineer working on the Grocery Delivery Application.
+
+
+
+The application provides three important functionalities:
+
+Fetch a productâs detail and its associated reviews
+Update items' expiry date based on âitemIdâ
+Adds a new item to a product and updates its inventory
+
+
+Task 1:
+
+Write a function to return a product with its reviews and reviewer details.
+
+
+
+The function should consider the following scenarios:
+
+It accepts a productId and returns the output as shown in the âExpected outputâ section below.
+It should validate that the productId passed as input should be a positive non-zero integer. If not, the function should throw an error with a message provided in the `productIdValidation` constant.
+The function should throw an error with the message provided in the `productNotFound` constant if the product with the given id is not found in the JSON files.
+`credit_card` field should be excluded from customer data when returning the final response.
+`phone_number` should be encoded with base64 when returning the final response.
+Sort reviews by showing the latest review on top using the `created_at` field.
+
+
+Four JSON files are available in the folder `task/src/data/task1`:
+
+products.json
+reviews.json
+customers.json
+images.json
+
+
+The function `getProductInformationByProductId` should read from these JSON files and return the output as demonstrated below in "Expected output" for the given productId.
+
+
+
+Please make a note that a product can have multiple reviews, each review has one customer and can have one or more images.
+
+
+
+Expected output:
+
+{
+	"id": 2,
+	"name": "Cinamon Roll",
+	"reviews": [
+		{
+			"id": 4,
+			"message": "Not satisfied",
+			"created_at": "2023-02-27T10:00:00Z",
+			"rating": 2,
+			"customer": {
+				"id": 4,
+				"name": "Howard",
+				"email": "peter.p@zylker.com",
+				"phone_number": "NDA1Njc3NDAyMw=="
+			},
+			"images": [
+				{
+					"id": 1,
+					"url": "https://flickr.com/img1.jpg"
+				}
+			]
+		}
+	]
+}
+
+
+Task 2:
+
+Youâre given a function `updateExpiryDateByItemId` which takes two parameters, `itemId` and `expiryDate`. The function reads a product list from a file (task/src/task2/update_item_products.json), updates a field expiry_date, and returns only the item that matched and its corresponding product as demonstrated in the âExpected outputâ section below.
+
+
+
+It should throw errors in the following scenarios:
+
+If the itemId is not a valid positive non-zero integer. The error thrown for this scenario should use the message available in the `itemIdValidtion` constant.
+Item with the given itemId is not found. The error thrown for this scenario should use the message available in the `itemNotFound` constant.
+
+
+There are one or more errors in the function preventing it from running correctly (see the "Error" section below). You are required to find and fix these bugs to ensure the function should run correctly without any errors with appropriate input validations.
+
+
+
+Error:
+
+> task2
+> node src/task2.js
+
+ReferenceError: products is not defined
+
+
+Expected output:
+
+{
+   "id": 6,
+   "name": "Cereal bars",
+   "is_available": true,
+   "price": 34,
+   "total_number_of_items": 6,
+   "number_of_items_left": 5,
+   "items": [
+      {
+         "item_id": 142,
+         "expiry_date": "2022-01-01"
+      }
+   ],
+   "rating": 3.6,
+   "brand": "Burry",
+   "category": "Bakery"
+}
+
+
+Task 3:
+
+Create a function to add an item to a product, increase the inventory count and return the updated product object.
+
+
+
+The function should consider the following scenarios:
+
+It accepts a `productId` and an `item` object. Find the product by given id and add the item to the productâs object. Increment `items_left` by 1, and return the updated product object.
+`itemId` must be unique. The code should throw an error if the `itemId` already exists in productâs items list. Use the error message available in `itemAlreadyExists` for this scenario.
+Item `expiryDate` must be in the future. The code should throw should an error if new item has an expired date. Use the error message available in `itemExpired` for this scenario.
+It should validate that the `productId` passed as an input should be a positive non-zero integer. If not, the function should throw an error with message provided `productIdValidation` constant.
+It should validate that the `item` passed as an input be a valid object. If not, the function should throw an error with message provided `itemValidation` constant.
+Sort items by `itemId`, in ascending order
+
+
+Data: Product details with their items are available at `task/src/data/task3/products.json`.
+
+
+
+Expected output:
+
+{
+  "id": 4,
+  "name": "Instant pudding",
+  "is_available": true,
+  "price": 20,
+  "rating": 4.78,
+  "brand": "Angel Delight",
+  "category": "Frozen",
+  "items_left": 6,
+  "items": [
+    {
+      "item_id": 401,
+      "expiry_date": "2023-03-17T01:57:07.846Z"
+    },
+    {
+      "item_id": 402,
+      "expiry_date": "2023-03-30T04:17:07.846Z"
+    },
+    {
+      "item_id": 403,
+      "expiry_date": "2023-03-30T09:56:07.846Z"
+    },
+    {
+      "item_id": 404,
+      "expiry_date": "2023-03-22T12:23:07.846Z"
+    },
+    {
+      "item_id": 405,
+      "expiry_date": "2050-04-05T03:29:07.846Z"
+    },
+    {
+      "item_id": 410,
+      "expiry_date": "2050-03-30T12:57:07.846Z"
+    }
+  ]
+}
+Something wrong with the question or blank content?
+
+Reload question
+
+Report a problem
+

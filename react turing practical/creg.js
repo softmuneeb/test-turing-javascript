@@ -83,8 +83,19 @@ function CandidateRegistration({ candidates, setCandidates }) {
   });
 
   const [registrationStatus, setRegistrationStatus] = useState(null);
+  const [highlightInput, setHighlightInput] = useState(false);
 
-  const highlightInput = true;
+  const isValid =
+    /^[a-zA-Z0-9\s]*$/.test(formData.name) &&
+    /^[a-zA-Z0-9\s]*$/.test(formData.role) &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+
+  const submitDisabled =
+    !isValid ||
+    formData.name === '' ||
+    formData.email === '' ||
+    formData.role === '' ||
+    formData.skills.length === 0;
 
   const handleAddSkill = () => {
     // Hint: Implement this
@@ -100,6 +111,16 @@ function CandidateRegistration({ candidates, setCandidates }) {
   const handleFormSubmit = (e) => {
     // Hint: Implement this
     e.preventDefault();
+
+    if (formData.skills < 1) return;
+
+    if (candidates.some((c) => c.email === formData.email)) {
+      setRegistrationStatus('Email already exists');
+      return setHighlightInput(true);
+    }
+
+    setRegistrationStatus('Candidate profile created');
+    setHighlightInput(false);
 
     setCandidates([...candidates, formData]);
     setFormData({
@@ -123,20 +144,15 @@ function CandidateRegistration({ candidates, setCandidates }) {
   };
 
   useEffect(() => {
-    const storedCandidates = localStorage.getItem('candidates');
-    if (storedCandidates) {
-      // Hint: Implement this
+    const storedCandidates = JSON.parse(localStorage.getItem('candidates'));
+    if (storedCandidates?.length > 0) {
+      setCandidates(storedCandidates);
     }
-  }, []);
-
-  useEffect(() => {
-    // Save candidates to localStorage whenever candidates state changes
-    localStorage.setItem('candidates', '');
-  }, [candidates]);
+  }, [setCandidates]);
 
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar candidateCount={candidates?.length || []}></Navbar>
       <div style={centerContainerStyle}>
         <div style={formBoxStyle}>
           <div data-testid='registration-component' style={formBoxStyle}>
@@ -192,6 +208,8 @@ function CandidateRegistration({ candidates, setCandidates }) {
                   name='skill'
                   value={formData.skill}
                   onChange={(e) => {
+                    // if(! /^[a-zA-Z\s]*$/.test(e.target.value)) return
+
                     setFormData({ ...formData, skill: e.target.value });
                   }}
                   placeholder='Skill'
@@ -202,6 +220,7 @@ function CandidateRegistration({ candidates, setCandidates }) {
                   data-testid='add-btn'
                   style={addSkillButtonStyle}
                   onClick={handleAddSkill}
+                  disabled={formData.skill === ''}
                 >
                   Add Skill
                 </button>
@@ -222,6 +241,7 @@ function CandidateRegistration({ candidates, setCandidates }) {
                   data-testid='submit-btn'
                   type='submit'
                   style={sharpEdgeButtonStyle}
+                  disabled={submitDisabled}
                   onClick={handleFormSubmit}
                 >
                   Register
@@ -236,9 +256,9 @@ function CandidateRegistration({ candidates, setCandidates }) {
                 </button>
               </div>
             </form>
-            {registrationStatus &&
-              // Hint: Implement this
-              console.log(registrationStatus)}
+            <div style={registrationStatus ? alertMessage : {}}>
+              {registrationStatus && registrationStatus}
+            </div>
           </div>
         </div>
       </div>

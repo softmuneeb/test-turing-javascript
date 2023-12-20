@@ -36,8 +36,6 @@ async function addItem(productId, item) {
   const product = productsList.products[productIndex];
 
   if (productIndex !== -1) {
-    product.items_left = product.items_left + 1;
-
     if (product.items.some((i) => i.item_id === item.id)) {
       throw new Error(validationErrorMessages.itemAlreadyExists);
     }
@@ -46,6 +44,7 @@ async function addItem(productId, item) {
       ...product.items,
       { item_id: item.id, expiry_date: item.expiry_date },
     ];
+    product.items_left++;
     product.items.sort((a, b) => a.item_id - b.item_id);
   } else {
     throw new Error(validationErrorMessages.productNotFound);
@@ -58,17 +57,17 @@ async function addItem(productId, item) {
  * TIP: Use the following code to test your implementation
  * Use different values for input parameters to test different scenarios
  */
-(async () => {
-  try {
-    const result = await addItem(4, {
-      id: 410,
-      expiry_date: '2050-03-30T12:57:07.846Z',
-    });
-    console.log(result);
-  } catch (err) {
-    console.error(err);
-  }
-})();
+// (async () => {
+//   try {
+//     const result = await addItem(4, {
+//       id: 410,
+//       expiry_date: '2050-03-30T12:57:07.846Z',
+//     });
+//     console.log(result);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// })();
 
 module.exports = {
   addItem,
